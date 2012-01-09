@@ -2,6 +2,7 @@
 
 A mongoid plugin to add auto incrementing fields to your documents.
 
+{<img src="https://secure.travis-ci.org/80beans/mongoid-autoinc.png" />}[http://travis-ci.org/#!/80beans/mongoid-autoin]
 
 == Installation
 
