@@ -1,0 +1,49 @@
+= mongoid-autoinc
+
+A mongoid plugin to add auto incrementing fields to your documents.
+
+
+== Installation
+
+in gemfile:
+
+    gem 'mongoid-autoinc'
+
+in class:
+
+    require Mongoid::Autoinc
+
+
+=== Usage
+
+  # app/models/movie.rb
+  class User
+    include MongoMapper::Autoinc
+    field :name
+    field :number, :type => Integer
+
+    auto_increment :number
+  end
+
+== Usage
+
+  user = User.create(:name => 'Dr. Percival "Perry" Ulysses Cox')
+  user.id # BSON::ObjectId('4d1d150d30f2246bc6000001')
+  user.number # 1
+
+  another_user = User.create(:name => 'Bob Kelso')
+  another_user.number # 2
+
+=== Development
+
+  $ gem install bundler (if you don't have it)
+  $ bundle install
+  $ bundle exec rake
+
+==== Test
+
+  $ rake test
+
+== Copyright
+
+See LICENSE for details
