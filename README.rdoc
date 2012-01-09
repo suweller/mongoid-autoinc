@@ -17,7 +17,7 @@ in class:
 
 === Usage
 
-  # app/models/movie.rb
+  # app/models/user.rb
   class User
     include MongoMapper::Autoinc
     field :name
