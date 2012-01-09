@@ -12,7 +12,7 @@ in gemfile:
 
 in class:
 
-    require Mongoid::Autoinc
+    require 'autoinc'
 
 
 === Usage
