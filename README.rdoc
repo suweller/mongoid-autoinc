@@ -38,11 +38,7 @@ in class:
 
   $ gem install bundler (if you don't have it)
   $ bundle install
-  $ bundle exec rake
-
-==== Test
-
-  $ rake test
+  $ bundle exec spec
 
 == Copyright
 
