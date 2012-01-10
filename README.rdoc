@@ -19,7 +19,7 @@ in class:
 
   # app/models/user.rb
   class User
-    include MongoMapper::Autoinc
+    include Mongoid::Autoinc
     field :name
     field :number, :type => Integer
 
