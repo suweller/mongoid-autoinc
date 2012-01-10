@@ -31,7 +31,7 @@ describe "Mongoid::Autoinc::Incrementor" do
   describe "#ensuring_document" do
 
     context "new document" do
-      before { incrementor.collection.stub!(:count).and_return(0) }
+      before { incrementor.collection.stub!(:find_one).and_return(false) }
 
       it "should call insert method" do
         incrementor.collection.should_receive(:insert).with(
@@ -44,7 +44,7 @@ describe "Mongoid::Autoinc::Incrementor" do
 
     context "existing document" do
 
-      before { incrementor.collection.stub!(:count).and_return(1) }
+      before { incrementor.collection.stub!(:find_one).and_return(true) }
 
       it "should call insert method" do
         incrementor.collection.should_not_receive(:insert)

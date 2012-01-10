@@ -9,7 +9,6 @@ module Mongoid
       def initialize(model_name, field_name)
         self.model_name = model_name
         self.field_name = field_name.to_s
-
         self.collection = Mongoid.database['auto_increment_counters']
       end
 
@@ -18,7 +17,7 @@ module Mongoid
       end
 
       def ensuring_document(&block)
-        collection.insert('_id' => key, 'c' => 0) unless collection.count('_id' => key) > 0
+        collection.insert('_id' => key, 'c' => 0) unless collection.find_one('_id' => key)
         yield
       end
 
