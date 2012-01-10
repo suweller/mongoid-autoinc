@@ -2,6 +2,7 @@
 
 A mongoid plugin to add auto incrementing fields to your documents.
 
+{<img src="https://secure.travis-ci.org/80beans/mongoid-autoinc.png" />}[http://travis-ci.org/#!/80beans/mongoid-autoinc]
 
 == Installation
 
@@ -11,14 +12,14 @@ in gemfile:
 
 in class:
 
-    require Mongoid::Autoinc
+    require 'autoinc'
 
 
 === Usage
 
-  # app/models/movie.rb
+  # app/models/user.rb
   class User
-    include MongoMapper::Autoinc
+    include Mongoid::Autoinc
     field :name
     field :number, :type => Integer
 
