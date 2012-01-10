@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mongoid-autoinc (0.0.1)
+    mongoid-autoinc (0.0.3)
       activesupport
       bson_ext
       mongoid
