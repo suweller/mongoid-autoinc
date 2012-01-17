@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe "Mongoid::Autoinc::Incrementor" do
 
-  let(:incrementor) { Mongoid::Autoinc::Incrementor.new('User', :number) }
+  let(:incrementor) { Mongoid::Autoinc::Incrementor.new('User', :number, '123') }
 
   describe "model name" do
 
@@ -20,11 +20,27 @@ describe "Mongoid::Autoinc::Incrementor" do
 
   end
 
+  describe "scope key" do
+
+    subject { incrementor.scope_key }
+
+    it { should == '123' }
+
+  end
+
   describe "#key" do
 
     subject { incrementor.key }
 
-    it { should == 'user_number' }
+    it { should == 'user_number_123' }
+
+    context "without scope" do
+
+      subject { Mongoid::Autoinc::Incrementor.new('User', :number).key }
+
+      it { should == 'user_number'}
+
+    end
 
   end
 
@@ -35,7 +51,7 @@ describe "Mongoid::Autoinc::Incrementor" do
 
       it "should call insert method" do
         incrementor.collection.should_receive(:insert).with(
-          '_id' => 'user_number', 'c' => 0
+          '_id' => 'user_number_123', 'c' => 0
         )
         incrementor.ensuring_document { }
       end

@@ -19,13 +19,13 @@ describe "Mongoid::Autoinc" do
 
       subject { User.autoincrementing_fields }
 
-      it { should == [:number] }
+      it { should == {:number => {}} }
 
       context "for PatientFile" do
 
         subject { PatientFile.autoincrementing_fields }
 
-        it { should == [:file_number] }
+        it { should == {:file_number => {:scope => :name}} }
 
       end
 
@@ -35,34 +35,58 @@ describe "Mongoid::Autoinc" do
 
   context "instance methods" do
 
-    subject { User.new }
+    let(:incrementor) { Object.new }
 
-    it { should respond_to(:update_auto_increments) }
+    before { incrementor.stub!(:inc).and_return(1) }
 
-    describe "before create" do
+    context "without scope" do
 
-      let(:user) { User.new(:name => 'Dr. Cox') }
+      subject { User.new }
 
-      let(:incrementor) { Mongoid::Autoinc::Incrementor.new('User', :number) }
+      it { should respond_to(:update_auto_increments) }
 
-      before { incrementor.stub!(:inc).and_return(1) }
+      describe "before create" do
 
-      it "should call the autoincrementor" do
-        Mongoid::Autoinc::Incrementor.should_receive(:new).
-          with('User', :number).
-          and_return(incrementor)
+        let(:user) { User.new(:name => 'Dr. Cox') }
 
-        user.save!
+        it "should call the autoincrementor" do
+          Mongoid::Autoinc::Incrementor.should_receive(:new).
+            with('User', :number, nil).
+            and_return(incrementor)
+
+          user.save!
+        end
+
+        describe "writing the attribute" do
+
+          before { Mongoid::Autoinc::Incrementor.stub!(:new).and_return(incrementor) }
+
+          it "should write the returned incrementor attribute" do
+            expect{
+              user.save!
+            }.to change(user, :number).from(nil).to(1)
+          end
+
+        end
+
       end
 
-      describe "writing the attribute" do
+    end
 
-        before { Mongoid::Autoinc::Incrementor.stub!(:new).and_return(incrementor) }
+    context "with scope" do
 
-        it "should write the returned incrementor attribute" do
-          expect{
-            user.save!
-          }.to change(user, :number).from(nil).to(1)
+      subject { PatientFile.new }
+
+      describe "before create" do
+
+        let(:patient_file) { PatientFile.new(:name => 'Dr. Cox') }
+
+        it "should call the autoincrementor" do
+          Mongoid::Autoinc::Incrementor.should_receive(:new).
+            with('PatientFile', :file_number, 'Dr. Cox').
+            and_return(incrementor)
+
+          patient_file.save!
         end
 
       end

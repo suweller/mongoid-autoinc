@@ -16,6 +16,6 @@ class PatientFile
   field :name
   field :file_number
 
-  auto_increment :file_number
+  auto_increment :file_number, :scope => :name
 
 end
