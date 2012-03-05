@@ -1,6 +1,5 @@
 require "spec_helper"
 
-
 describe "Mongoid::Autoinc" do
 
   after do
@@ -20,6 +19,10 @@ describe "Mongoid::Autoinc" do
       subject { User.autoincrementing_fields }
 
       it { should == {:number => {}} }
+
+      it "should protect number" do
+        User.protected_attributes.include? :number
+      end
 
       context "for PatientFile" do
 

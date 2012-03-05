@@ -17,6 +17,8 @@ module Mongoid
 
       def auto_increment(field, options={})
         autoincrementing_fields[field] = options
+
+        attr_protected field
       end
 
     end
