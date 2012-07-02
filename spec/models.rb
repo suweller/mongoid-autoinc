@@ -5,7 +5,7 @@ class User
   field :name
   field :number
 
-  auto_increment :number
+  increments :number
 
 end
 
@@ -16,6 +16,17 @@ class PatientFile
   field :name
   field :file_number
 
-  auto_increment :file_number, :scope => :name
+  increments :file_number, :scope => :name
+
+end
+
+class Intern
+  include Mongoid::Document
+  include Mongoid::Autoinc
+
+  field :name
+  field :number
+
+  increments :number, :auto => false
 
 end

@@ -10,15 +10,15 @@ describe "Mongoid::Autoinc" do
 
     subject { User }
 
-    it { should respond_to(:auto_increment) }
+    it { should respond_to(:increments) }
 
-    it { should respond_to :autoincrementing_fields }
+    it { should respond_to :incrementing_fields }
 
-    describe "autoincrementing_fields" do
+    describe "incrementing_fields" do
 
-      subject { User.autoincrementing_fields }
+      subject { User.incrementing_fields }
 
-      it { should == {:number => {}} }
+      it { should == {:number => {:auto => true}} }
 
       it "should protect number" do
         User.protected_attributes.include? :number
@@ -26,9 +26,9 @@ describe "Mongoid::Autoinc" do
 
       context "for PatientFile" do
 
-        subject { PatientFile.autoincrementing_fields }
+        subject { PatientFile.incrementing_fields }
 
-        it { should == {:file_number => {:scope => :name}} }
+        it { should == {:file_number => {:scope => :name, :auto => true}} }
 
       end
 
@@ -72,6 +72,15 @@ describe "Mongoid::Autoinc" do
 
         end
 
+        describe "#assign!" do
+
+          it "should raise AutoIncrementsError" do
+            expect { subject.assign!(:number) }.
+              to raise_error(Mongoid::Autoinc::AutoIncrementsError)
+          end
+
+        end
+
       end
 
     end
@@ -90,6 +99,33 @@ describe "Mongoid::Autoinc" do
             and_return(incrementor)
 
           patient_file.save!
+        end
+
+      end
+
+    end
+
+    context "without auto" do
+
+      subject { Intern.new }
+
+      describe "before create" do
+
+        it "should not call the autoincrementor" do
+          Mongoid::Autoinc::Incrementor.should_not_receive(:new)
+
+          subject.save!
+        end
+
+      end
+
+      describe "#assign!" do
+
+        it "should call the autoincrementor" do
+          Mongoid::Autoinc::Incrementor.should_receive(:new).
+            with('Intern', :number, nil).and_return(incrementor)
+
+          subject.assign!(:number)
         end
 
       end
