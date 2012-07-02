@@ -23,7 +23,7 @@ in class:
     field :name
     field :number, :type => Integer
 
-    auto_increment :number
+    increments :number
   end
 
   user = User.create(:name => 'Dr. Percival "Perry" Ulysses Cox')
@@ -32,7 +32,6 @@ in class:
 
   another_user = User.create(:name => 'Bob Kelso')
   another_user.number # 2
-
 
 === Scopes
 
@@ -45,11 +44,36 @@ You can scope on document fields. For example:
    field :name
    field :number, :type => Integer
 
-   auto_increment :number, :scope => :patient_id
+   increments :number, :scope => :patient_id
 
    belongs_to :patient
 
  end
+
+=== Custom Increment Trigger
+
+You can trigger the assignment of an increment field manually by passing:
+`:auto => false` to the increment field.
+This allows for more flexible assignment of your increment number:
+
+class Intern
+  include Mongoid::Document
+  include Mongoid::Autoinc
+
+  field :name
+  field :number
+
+  increments :number, :auto => false
+
+  after_save :assign_number_to_jd
+
+  protected
+
+  def assign_number_to_jd
+    assign!(:number) if number.blank? && name == 'J.D.'
+  end
+
+end
 
 === Development
 
