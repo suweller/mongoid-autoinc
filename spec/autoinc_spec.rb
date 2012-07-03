@@ -128,6 +128,12 @@ describe "Mongoid::Autoinc" do
           subject.assign!(:number)
         end
 
+        it "should raise when called more than once per document" do
+          subject.assign!(:number)
+          expect { subject.assign!(:number) }.
+            to raise_error(Mongoid::Autoinc::AlreadyAssignedError)
+        end
+
       end
 
     end
