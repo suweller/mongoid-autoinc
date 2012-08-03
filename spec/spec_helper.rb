@@ -5,6 +5,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'active_support/all'
 require "mongoid"
+require 'mongo'
 require "autoinc"
 require "uri"
 
