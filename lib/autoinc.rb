@@ -25,29 +25,25 @@ module Mongoid
 
     end
 
-    module InstanceMethods
+    def assign!(field)
+      options = self.class.incrementing_fields[field]
+      raise AutoIncrementsError if options[:auto]
+      raise AlreadyAssignedError if send(field).present?
+      increment!(field, options)
+    end
 
-      def assign!(field)
-        options = self.class.incrementing_fields[field]
-        raise AutoIncrementsError if options[:auto]
-        raise AlreadyAssignedError if send(field).present?
-        increment!(field, options)
+    def update_auto_increments
+      self.class.incrementing_fields.each do |field, options|
+        increment!(field, options) if options[:auto]
       end
+    end
 
-      def update_auto_increments
-        self.class.incrementing_fields.each do |field, options|
-          increment!(field, options) if options[:auto]
-        end
-      end
-
-      def increment!(field, options)
-        scope_key = options[:scope] ? send(options[:scope]) : nil
-        write_attribute(
-          field.to_sym,
-          Mongoid::Autoinc::Incrementor.new(self.class.name, field, scope_key).inc
-        )
-      end
-
+    def increment!(field, options)
+      scope_key = options[:scope] ? send(options[:scope]) : nil
+      write_attribute(
+        field.to_sym,
+        Mongoid::Autoinc::Incrementor.new(self.class.name, field, scope_key).inc
+      )
     end
 
   end
