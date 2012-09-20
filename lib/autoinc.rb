@@ -15,7 +15,11 @@ module Mongoid
     module ClassMethods
 
       def incrementing_fields
-        @incrementing_fields ||= {}
+        if superclass.respond_to?(:incrementing_fields)
+          @incrementing_fields ||= superclass.incrementing_fields.dup
+        else
+          @incrementing_fields ||= {}
+        end
       end
 
       def increments(field, options={})
