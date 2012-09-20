@@ -9,6 +9,9 @@ class User
 
 end
 
+class SpecialUser < User
+end
+
 class PatientFile
   include Mongoid::Document
   include Mongoid::Autoinc
