@@ -42,6 +42,18 @@ describe "Mongoid::Autoinc::Incrementor" do
 
     end
 
+    context "for a subclass" do
+
+      let(:incrementor) do
+
+        Mongoid::Autoinc::Incrementor.new('SpecialUser', :number, '123')
+
+      end
+
+      it { should == 'special_user_number_123' }
+
+    end
+
   end
 
   describe "#ensuring_document" do
