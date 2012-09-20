@@ -1,12 +1,13 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
+require 'autoinc/version'
 
 Gem::Specification.new do |s|
   s.name        = "mongoid-autoinc"
-  s.version     = "0.1.1"
+  s.version     = Mongoid::Autoinc::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Robert Beekman", "Steven Weller"]
-  s.email       = ["robert@80beans.com", "steven@80beans.com"]
+  s.authors     = ["Robert Beekman", "Steven Weller", "Jacob Vosmaer"]
+  s.email       = ["robert@80beans.com", "steven@80beans.com", "jacob@80beans.com"]
   s.homepage    = "https://github.com/80beans/mongoid-autoinc"
   s.summary     = %q{Add auto incrementing fields to mongoid documents}
   s.description = %q{Think auto incrementing field from MySQL for mongoid.}
