@@ -148,6 +148,21 @@ describe "Mongoid::Autoinc" do
 
       end
 
+      context "class with overwritten model name" do
+
+        subject { Intern.new }
+
+        before { Intern.stub(:model_name => 'PairOfScrubs') }
+
+        it "should call the autoincrementor" do
+          Mongoid::Autoinc::Incrementor.should_receive(:new).
+            with('PairOfScrubs', :number, nil).and_return(incrementor)
+
+          subject.assign!(:number)
+        end
+
+      end
+
     end
 
   end
