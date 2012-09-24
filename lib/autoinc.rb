@@ -45,8 +45,8 @@ module Mongoid
     def increment!(field, options)
       scope_key = options[:scope] ? send(options[:scope]) : nil
       write_attribute(
-        field.to_sym,
-        Mongoid::Autoinc::Incrementor.new(self.class.name, field, scope_key).inc
+        field.to_sym, Mongoid::Autoinc::Incrementor.new(
+          self.class.model_name, field, scope_key).inc
       )
     end
 
