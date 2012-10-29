@@ -6,15 +6,15 @@ Gem::Specification.new do |s|
   s.name        = "mongoid-autoinc"
   s.version     = Mongoid::Autoinc::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Robert Beekman", "Steven Weller", "Jacob Vosmaer"]
-  s.email       = ["robert@80beans.com", "steven@80beans.com", "jacob@80beans.com"]
+  s.authors     = ["Robert Beekman", "Steven Weller", "Jacob Vosmaer", "Lawrence Curtis"]
+  s.email       = ["robert@80beans.com", "steven@80beans.com", "jacob@80beans.com", "lawrence@slipstreamstudio.com"]
   s.homepage    = "https://github.com/80beans/mongoid-autoinc"
   s.summary     = %q{Add auto incrementing fields to mongoid documents}
   s.description = %q{Think auto incrementing field from MySQL for mongoid.}
   s.files        = Dir.glob("lib/**/*") + %w(README.rdoc)
   s.require_path = 'lib'
 
-  s.add_dependency 'mongoid'
+  s.add_dependency 'mongoid', '~> 3'
   s.add_dependency 'bson_ext'
   s.add_dependency 'rspec'
   s.add_dependency 'activesupport'
