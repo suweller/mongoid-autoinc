@@ -1,4 +1,2 @@
 rvm: 1.9.3
 services: mongodb
-gemfile:
-  - gemfiles/mongoid_3.gemfile
