@@ -56,47 +56,9 @@ describe "Mongoid::Autoinc::Incrementor" do
 
   end
 
-  describe "#ensuring_document" do
-
-    context "new document" do
-
-      let(:collection) { stub }
-
-      before do
-        collection.stub!(:find_one).and_return(false)
-        incrementor.stub(:collection => collection)
-      end
-
-      it "should call insert method" do
-        collection.should_receive(:insert).with(
-          '_id' => 'user_number_123', 'c' => 0
-        )
-        incrementor.ensuring_document { }
-      end
-
-    end
-
-    context "existing document" do
-
-      before { incrementor.collection.stub!(:find_one).and_return(true) }
-
-      it "should call insert method" do
-        incrementor.collection.should_not_receive(:insert)
-        incrementor.ensuring_document { }
-      end
-
-    end
-
-  end
-
   describe "#inc" do
 
     subject { incrementor.inc }
-
-    it "should call ensure_document" do
-      incrementor.should_receive(:ensuring_document)
-      subject
-    end
 
     describe "generating incrementing numbers" do
 
