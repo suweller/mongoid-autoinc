@@ -59,10 +59,16 @@ describe "Mongoid::Autoinc::Incrementor" do
   describe "#ensuring_document" do
 
     context "new document" do
-      before { incrementor.collection.stub!(:find_one).and_return(false) }
+
+      let(:collection) { stub }
+
+      before do
+        collection.stub!(:find_one).and_return(false)
+        incrementor.stub(:collection => collection)
+      end
 
       it "should call insert method" do
-        incrementor.collection.should_receive(:insert).with(
+        collection.should_receive(:insert).with(
           '_id' => 'user_number_123', 'c' => 0
         )
         incrementor.ensuring_document { }

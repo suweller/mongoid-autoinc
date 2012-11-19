@@ -1,0 +1,5 @@
+source :rubygems
+
+gemspec
+
+gem 'mongoid', '2.4.11'

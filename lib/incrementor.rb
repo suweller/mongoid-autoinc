@@ -10,7 +10,14 @@ module Mongoid
         self.model_name = model_name
         self.field_name = field_name.to_s
         self.scope_key = scope_key
-        self.collection = Mongoid.database['auto_increment_counters']
+      end
+
+      def collection
+        if ::Mongoid::VERSION < '3'
+          Mongoid.database['auto_increment_counters']
+        else
+          ::Mongoid.default_session['auto_increment_counters']
+        end
       end
 
       def key

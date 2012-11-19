@@ -2,3 +2,6 @@ rvm: 1.9.3
 before_script:
   - "cp spec/mongoid.yml.forci spec/mongoid.yml"
 
+gemfile:
+  - gemfiles/mongoid_2.gemfile
+  - gemfiles/mongoid_3.gemfile
