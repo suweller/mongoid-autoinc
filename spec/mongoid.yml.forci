@@ -1,2 +1,0 @@
-test:
-  uri: mongodb://test:test@flame.mongohq.com:27108/autoinc
