@@ -4,7 +4,7 @@ PATH
     mongoid-autoinc (0.1.2)
       activesupport
       bson_ext
-      mongoid
+      mongoid (~> 3.0.0)
       rake
       rspec
 
@@ -50,5 +50,4 @@ PLATFORMS
 
 DEPENDENCIES
   foreman
-  mongoid (~> 3.0.0)
   mongoid-autoinc!
