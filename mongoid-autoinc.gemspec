@@ -14,7 +14,8 @@ Gem::Specification.new do |s|
   s.files        = Dir.glob("lib/**/*") + %w(README.rdoc)
   s.require_path = 'lib'
 
-  s.add_dependency 'mongoid'
+  s.add_development_dependency 'foreman'
+  s.add_dependency 'mongoid', '~> 3.0.0'
   s.add_dependency 'bson_ext'
   s.add_dependency 'rspec'
   s.add_dependency 'activesupport'

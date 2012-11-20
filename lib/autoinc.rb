@@ -1,4 +1,4 @@
-require 'incrementor'
+require 'autoinc/incrementor'
 
 module Mongoid
 
