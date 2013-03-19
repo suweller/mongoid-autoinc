@@ -16,19 +16,14 @@ A mongoid plugin to add auto incrementing fields to your documents.
 
 in gemfile:
 
-```ruby
     gem 'mongoid-autoinc'
-```
 
 in class:
 
-```ruby
     require 'autoinc'
-```
 
 === Usage
 
-```ruby
   # app/models/user.rb
   class User
     include Mongoid::Document
@@ -45,13 +40,11 @@ in class:
 
   another_user = User.create(:name => 'Bob Kelso')
   another_user.number # 2
-```
 
 === Scopes
 
 You can scope on document fields. For example:
 
-```ruby
  class PatientFile
    include Mongoid::Document
    include Mongoid::Autoinc
@@ -64,13 +57,10 @@ You can scope on document fields. For example:
    belongs_to :patient
 
  end
- ```
 
 Scope can as be a Proc, like so:
 
-```ruby
    increments :number, :scope => lambda{ patient.name }
-```
 
 === Custom Increment Trigger
 
@@ -78,7 +68,6 @@ You can trigger the assignment of an increment field manually by passing:
 +:auto => false+ to the increment field.
 This allows for more flexible assignment of your increment number:
 
-```ruby
   class Intern
     include Mongoid::Document
     include Mongoid::Autoinc
@@ -97,15 +86,12 @@ This allows for more flexible assignment of your increment number:
     end
 
   end
-```
 
 === Development
 
-```
   $ gem install bundler (if you don't have it)
   $ bundle install
   $ bundle exec spec
-```
 
 == Copyright
 
