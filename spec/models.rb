@@ -5,6 +5,8 @@ class User
   field :name
   field :number
 
+  has_many :operations
+
   increments :number
 
 end
@@ -20,6 +22,19 @@ class PatientFile
   field :file_number
 
   increments :file_number, :scope => :name
+
+end
+
+class Operation
+  include Mongoid::Document
+  include Mongoid::Autoinc
+
+  field :name
+  field :op_number
+
+  belongs_to :user
+
+  increments :op_number, :scope => lambda { user.name }
 
 end
 

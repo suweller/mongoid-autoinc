@@ -58,6 +58,10 @@ You can scope on document fields. For example:
 
  end
 
+Scope can also be a Proc:
+
+   increments :number, :scope => lambda{ patient.name }
+
 === Custom Increment Trigger
 
 You can trigger the assignment of an increment field manually by passing:

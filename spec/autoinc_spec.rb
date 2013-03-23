@@ -44,6 +44,15 @@ describe "Mongoid::Autoinc" do
 
       end
 
+      context "for Operation" do
+
+        subject { Operation.incrementing_fields }
+
+        it { should == {:op_number => {:scope => subject[:op_number][:scope], :auto => true}} }
+        it { subject[:op_number][:scope].should be_a Proc }
+
+      end
+
     end
 
   end
@@ -97,9 +106,7 @@ describe "Mongoid::Autoinc" do
 
     end
 
-    context "with scope" do
-
-      subject { PatientFile.new }
+    context "with scope as symbol" do
 
       describe "before create" do
 
@@ -111,6 +118,25 @@ describe "Mongoid::Autoinc" do
             and_return(incrementor)
 
           patient_file.save!
+        end
+
+      end
+
+    end
+
+    context "with scope as proc" do
+
+      describe "before create" do
+
+        let(:user) { User.new(:name => 'Dr. Cox') }
+        let(:operation) { Operation.new(:name => 'Heart Transplant', :user => user) }
+
+        it "should call the autoincrementor" do
+          Mongoid::Autoinc::Incrementor.should_receive(:new).
+              with('Operation', :op_number, 'Dr. Cox').
+              and_return(incrementor)
+
+          operation.save!
         end
 
       end
