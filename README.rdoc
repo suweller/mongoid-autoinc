@@ -93,6 +93,10 @@ This allows for more flexible assignment of your increment number:
   $ bundle install
   $ bundle exec spec
 
+== Contributions
+  Thanks to Johnny Shields (@johnnyshields) for implementing proc support to scopes
+
+
 == Copyright
 
 See LICENSE for details
