@@ -94,7 +94,8 @@ This allows for more flexible assignment of your increment number:
   $ bundle exec spec
 
 == Contributions
-  Thanks to Johnny Shields (@johnnyshields) for implementing proc support to scopes
+
+Thanks to Johnny Shields (@johnnyshields) for implementing proc support to scopes
 
 
 == Copyright
