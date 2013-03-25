@@ -60,7 +60,7 @@ You can scope on document fields. For example:
 
 Scope can also be a Proc:
 
-   increments :number, :scope => lambda{ patient.name }
+   increments :number, :scope => lambda { patient.name }
 
 === Custom Increment Trigger
 
