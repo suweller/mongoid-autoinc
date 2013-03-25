@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mongoid-autoinc (0.3.2)
+    mongoid-autoinc (0.4.0)
       activesupport
       mongoid (~> 3.0)
       rake
