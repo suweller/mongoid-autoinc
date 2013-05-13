@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe "Mongoid::Autoinc::Incrementor" do
 
-  let(:incrementor) { Mongoid::Autoinc::Incrementor.new('User', :number, '123') }
+  let(:incrementor) { Mongoid::Autoinc::Incrementor.new('User', :number, '123', 100) }
 
   describe "model name" do
 
@@ -25,6 +25,14 @@ describe "Mongoid::Autoinc::Incrementor" do
     subject { incrementor.scope_key }
 
     it { should == '123' }
+
+  end
+
+  describe "seed" do
+
+    subject { incrementor.seed }
+
+    it { should == 100 }
 
   end
 
@@ -67,6 +75,18 @@ describe "Mongoid::Autoinc::Incrementor" do
       it "should increment the number for each document" do
         (1..10).each do |incrementing_number|
           User.create!(:name => 'Bob Kelso').number.should == incrementing_number
+        end
+      end
+
+    end
+
+    context "with a seed value" do
+
+      before { Vehicle.delete_all }
+
+      it "should start the incrementor at the seed value" do
+        (1..10).each do |i|
+          Vehicle.create(model: "Coupe").vin.should == 1000 + i
         end
       end
 

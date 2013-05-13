@@ -53,6 +53,14 @@ describe "Mongoid::Autoinc" do
 
       end
 
+      context "for Vehicle" do
+
+        subject { Vehicle.incrementing_fields }
+
+        it { should == {:vin => {:seed => 1000, :auto => true}} }
+        
+      end
+
     end
 
   end
@@ -75,7 +83,7 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-            with('User', :number, nil).
+            with('User', :number, nil, nil).
             and_return(incrementor)
 
           user.save!
@@ -114,7 +122,7 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-            with('PatientFile', :file_number, 'Dr. Cox').
+            with('PatientFile', :file_number, 'Dr. Cox', nil).
             and_return(incrementor)
 
           patient_file.save!
@@ -133,7 +141,7 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-              with('Operation', :op_number, 'Dr. Cox').
+              with('Operation', :op_number, 'Dr. Cox', nil).
               and_return(incrementor)
 
           operation.save!
@@ -161,7 +169,7 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-            with('Intern', :number, nil).and_return(incrementor)
+            with('Intern', :number, nil, nil).and_return(incrementor)
 
           subject.assign!(:number)
         end
@@ -182,9 +190,27 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-            with('PairOfScrubs', :number, nil).and_return(incrementor)
+            with('PairOfScrubs', :number, nil, nil).and_return(incrementor)
 
           subject.assign!(:number)
+        end
+
+      end
+
+    end
+
+    context "with seed" do
+
+      describe "before create" do
+
+        let(:vehicle) { Vehicle.new(:model => 'Coupe') }
+
+        it "should call the autoincrementor with the seed value" do
+          Mongoid::Autoinc::Incrementor.should_receive(:new).
+            with('Vehicle', :vin, nil, 1000).
+            and_return(incrementor)
+
+          vehicle.save!
         end
 
       end
