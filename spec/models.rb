@@ -48,3 +48,14 @@ class Intern
   increments :number, :auto => false
 
 end
+
+class Vehicle
+  include Mongoid::Document
+  include Mongoid::Autoinc
+
+  field :model
+  field :vin
+
+  increments :vin, seed: 1000
+
+end
