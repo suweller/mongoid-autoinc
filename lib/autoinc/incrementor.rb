@@ -3,14 +3,15 @@ module Mongoid
   module Autoinc
 
     class Incrementor
-      attr_accessor :model_name, :field_name, :scope_key, :collection, :seed
+      attr_accessor :model_name, :field_name, :scope_key, :collection, :seed, :step
 
-      def initialize(model_name, field_name, scope_key=nil, seed=nil)
+      def initialize(model_name, field_name, options={})
         self.model_name = model_name
         self.field_name = field_name.to_s
-        self.scope_key = scope_key
+        self.scope_key = options[:scope]
+        self.step = options[:step] || 1
+        self.seed = options[:seed]
         self.collection = ::Mongoid.default_session['auto_increment_counters']
-        self.seed = seed
         create if seed && !exists?
       end
 
@@ -25,7 +26,7 @@ module Mongoid
         collection.find(
           '_id' => key
         ).modify(
-          {'$inc' => { 'c' => 1 }},
+          {'$inc' => { 'c' => step }},
           :new => true, :upsert => true
         )['c']
       end
