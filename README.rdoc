@@ -87,6 +87,25 @@ This allows for more flexible assignment of your increment number:
 
   end
 
+=== Seeds
+
+You can use a seed to start the incrementing field at a given value. The first
+document created will start at `seed + 1`.
+
+  class Vehicle
+    include Mongoid::Document
+    include Mongoid::Autoinc
+
+    field :model
+    field :vin
+
+    increments :vin, seed: 1000
+
+  end
+
+  car = Vehicle.new(model: "Coupe")
+  car.vin # 1001
+
 === Development
 
   $ gem install bundler (if you don't have it)
