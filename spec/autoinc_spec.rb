@@ -61,6 +61,23 @@ describe "Mongoid::Autoinc" do
         
       end
 
+      context "for Ticket" do
+
+        subject { Ticket.incrementing_fields }
+
+        it { should == {:number => {:step => 2, :auto => true}} }
+
+      end
+
+      context "for LotteryTicket" do
+
+        subject { LotteryTicket.incrementing_fields }
+
+        it { should == {:number => {:step => subject[:number][:step], :auto => true}} }
+        it { subject[:number][:step].should be_a Proc }
+
+      end
+
     end
 
   end
@@ -83,7 +100,7 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-            with('User', :number, nil, nil).
+            with('User', :number, {auto: true}).
             and_return(incrementor)
 
           user.save!
@@ -122,7 +139,7 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-            with('PatientFile', :file_number, 'Dr. Cox', nil).
+            with('PatientFile', :file_number, {scope: 'Dr. Cox', auto: true}).
             and_return(incrementor)
 
           patient_file.save!
@@ -141,7 +158,7 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-              with('Operation', :op_number, 'Dr. Cox', nil).
+              with('Operation', :op_number, {scope: 'Dr. Cox', auto: true}).
               and_return(incrementor)
 
           operation.save!
@@ -169,7 +186,7 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-            with('Intern', :number, nil, nil).and_return(incrementor)
+            with('Intern', :number, {auto: false}).and_return(incrementor)
 
           subject.assign!(:number)
         end
@@ -190,7 +207,7 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-            with('PairOfScrubs', :number, nil, nil).and_return(incrementor)
+            with('PairOfScrubs', :number, {auto: false}).and_return(incrementor)
 
           subject.assign!(:number)
         end
@@ -207,10 +224,46 @@ describe "Mongoid::Autoinc" do
 
         it "should call the autoincrementor with the seed value" do
           Mongoid::Autoinc::Incrementor.should_receive(:new).
-            with('Vehicle', :vin, nil, 1000).
+            with('Vehicle', :vin, {seed: 1000, auto: true}).
             and_return(incrementor)
 
           vehicle.save!
+        end
+
+      end
+
+    end
+
+    context "with Integer step" do
+
+      describe "before create" do
+
+        let(:ticket) { Ticket.new }
+
+        it "should call the autoincrementor with the options hash" do
+          Mongoid::Autoinc::Incrementor.should_receive(:new).
+            with('Ticket', :number, {step: 2, auto: true}).
+            and_return(incrementor)
+
+          ticket.save!
+        end
+
+      end
+
+    end
+
+    context "with Proc step" do
+
+      describe "before create" do
+
+        let(:lottery_ticket) { LotteryTicket.new(start: 10) }
+
+        it "should call the autoincrementor with the options hash" do
+          Mongoid::Autoinc::Incrementor.should_receive(:new).
+            with('LotteryTicket', :number, {step: 11, auto: true}).
+            and_return(incrementor)
+
+          lottery_ticket.save!
         end
 
       end
