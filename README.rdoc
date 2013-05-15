@@ -115,7 +115,7 @@ document created will start at `seed + 1`.
 == Contributions
 
 Thanks to Johnny Shields (@johnnyshields) for implementing proc support to scopes
-
+And to Marcus Gartner (@mgartner) for implementing the seed functionality
 
 == Copyright
 
