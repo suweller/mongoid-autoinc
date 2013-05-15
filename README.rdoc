@@ -106,6 +106,31 @@ document created will start at `seed + 1`.
   car = Vehicle.new(model: "Coupe")
   car.vin # 1001
 
+=== Step
+
+The step option can be used to specify the amount to increment the field every
+time a new document is created. If no step is specified, it will increment by
+1.
+
+  class Ticket
+    include Mongoid::Document
+    include Mongoid::Autoinc
+
+    field :number
+
+    increments :number, step: 5
+
+  end
+
+  first_ticket = Ticket.new
+  first_ticket.number # 5
+  second_ticket = Ticket.new
+  second_ticket.number # 10
+
+The step option can also be a Proc:
+
+  increments :number, step: lambda { 1 + rand(10) }
+
 === Development
 
   $ gem install bundler (if you don't have it)

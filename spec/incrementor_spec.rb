@@ -2,7 +2,8 @@ require "spec_helper"
 
 describe "Mongoid::Autoinc::Incrementor" do
 
-  let(:incrementor) { Mongoid::Autoinc::Incrementor.new('User', :number, '123', 100) }
+  let(:options) { {scope: '123', seed: 100, step: 2} }
+  let(:incrementor) { Mongoid::Autoinc::Incrementor.new('User', :number, options) }
 
   describe "model name" do
 
@@ -36,6 +37,14 @@ describe "Mongoid::Autoinc::Incrementor" do
 
   end
 
+  describe "step" do
+
+    subject { incrementor.step }
+
+    it { should == 2 }
+
+  end
+
   describe "#key" do
 
     subject { incrementor.key }
@@ -54,7 +63,7 @@ describe "Mongoid::Autoinc::Incrementor" do
 
       let(:incrementor) do
 
-        Mongoid::Autoinc::Incrementor.new('SpecialUser', :number, '123')
+        Mongoid::Autoinc::Incrementor.new('SpecialUser', :number, options)
 
       end
 
@@ -87,6 +96,18 @@ describe "Mongoid::Autoinc::Incrementor" do
       it "should start the incrementor at the seed value" do
         (1..10).each do |i|
           Vehicle.create(model: "Coupe").vin.should == 1000 + i
+        end
+      end
+
+    end
+
+    context "with a step value" do
+
+      before { Ticket.delete_all }
+
+      it "should increment according to the step value" do
+        (1..10).each do |i|
+          Ticket.create.number.should == 2 * i
         end
       end
 

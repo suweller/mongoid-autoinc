@@ -59,3 +59,23 @@ class Vehicle
   increments :vin, seed: 1000
 
 end
+
+class Ticket
+  include Mongoid::Document
+  include Mongoid::Autoinc
+
+  field :number
+
+  increments :number, step: 2
+  
+end
+
+class LotteryTicket
+  include Mongoid::Document
+  include Mongoid::Autoinc
+
+  field :number
+
+  increments :number, step: lambda { 35 + 2 }
+
+end
