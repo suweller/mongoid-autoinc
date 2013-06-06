@@ -2,7 +2,8 @@ require "spec_helper"
 
 describe "Mongoid::Autoinc::Incrementor" do
 
-  let(:incrementor) { Mongoid::Autoinc::Incrementor.new('User', :number, '123', 100) }
+  let(:options) { {scope: '123', seed: 100, step: 2} }
+  let(:incrementor) { Mongoid::Autoinc::Incrementor.new('User', :number, options) }
 
   describe "model name" do
 
@@ -36,6 +37,14 @@ describe "Mongoid::Autoinc::Incrementor" do
 
   end
 
+  describe "step" do
+
+    subject { incrementor.step }
+
+    it { should == 2 }
+
+  end
+
   describe "#key" do
 
     subject { incrementor.key }
@@ -54,7 +63,7 @@ describe "Mongoid::Autoinc::Incrementor" do
 
       let(:incrementor) do
 
-        Mongoid::Autoinc::Incrementor.new('SpecialUser', :number, '123')
+        Mongoid::Autoinc::Incrementor.new('SpecialUser', :number, options)
 
       end
 
@@ -88,6 +97,30 @@ describe "Mongoid::Autoinc::Incrementor" do
         (1..10).each do |i|
           Vehicle.create(model: "Coupe").vin.should == 1000 + i
         end
+      end
+
+    end
+
+    context "with a step Integer value" do
+
+      before { Ticket.delete_all }
+
+      it "should increment according to the step value" do
+        (1..10).each do |i|
+          Ticket.create.number.should == 2 * i
+        end
+      end
+
+    end
+
+    context "with a step Proc value" do
+
+      before { LotteryTicket.delete_all }
+
+      it "should increment according to the step value" do
+        LotteryTicket.create(start: 10).number.should == 11
+        LotteryTicket.create(start: 30).number.should == 42
+        LotteryTicket.create.number.should == 43
       end
 
     end
