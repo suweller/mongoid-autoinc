@@ -48,7 +48,7 @@ module Mongoid
       options[:step] = evaluate_step(options[:step]) if options[:step]
       write_attribute(
           field.to_sym, Mongoid::Autoinc::Incrementor.new(
-          self.class.model_name, field, options).inc
+          model_name(options), field, options).inc
       )
     end
 
@@ -74,6 +74,21 @@ module Mongoid
         end
       else
         raise 'step is not an Integer or a Proc'
+      end
+    end
+
+    def model_name(options)
+      if options.has_key?(:use_inherited_class_name) && !options[:use_inherited_class_name].is_a?(Boolean)
+        raise 'use_inherited_class_name is not a Boolean'
+      end
+
+      if options[:use_inherited_class_name]
+        if !self.class.superclass.respond_to? :superclass
+          raise 'use_inherited_class_name is used, but class is not a subclass'
+        end
+        return self.class.superclass.model_name
+      else
+        return self.class.model_name
       end
     end
 

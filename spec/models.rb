@@ -60,6 +60,12 @@ class Vehicle
 
 end
 
+class Car < Vehicle
+  include Mongoid::Autoinc
+
+  increments :vin, seed: 1000, use_inherited_class_name: true
+end
+
 class Ticket
   include Mongoid::Document
   include Mongoid::Autoinc

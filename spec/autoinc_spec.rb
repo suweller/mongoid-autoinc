@@ -78,6 +78,14 @@ describe "Mongoid::Autoinc" do
 
       end
 
+      context "for Car" do
+
+        subject { Car.incrementing_fields }
+
+        it { should == {:vin => {:seed => 1000, :use_inherited_class_name => true, :auto => true}} }
+
+      end
+
     end
 
   end
@@ -264,6 +272,26 @@ describe "Mongoid::Autoinc" do
             and_return(incrementor)
 
           lottery_ticket.save!
+        end
+
+      end
+
+    end
+
+    context "with use_inherited_class_name as Boolean" do
+
+      subject { Car.new }
+
+      describe "before create" do
+
+        let(:car) { Car.new(:model => 'Volkswagen') }
+
+        it "should call the autoincrementor with inherited class name" do
+          Mongoid::Autoinc::Incrementor.should_receive(:new).
+            with('Vehicle', :vin, {seed: 1000, use_inherited_class_name: true, auto: true}).
+            and_return(incrementor)
+
+          car.save!
         end
 
       end
