@@ -7,7 +7,7 @@ PATH
       rake
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     activemodel (3.2.13)
       activesupport (= 3.2.13)
