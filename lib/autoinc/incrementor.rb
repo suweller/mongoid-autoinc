@@ -17,7 +17,7 @@ module Mongoid
 
       def key
         "".tap do |str|
-          str << "#{model_name.underscore}_#{field_name}"
+          str << "#{model_name.to_s.underscore}_#{field_name}"
           str << "_#{scope_key}" unless scope_key.blank?
         end
       end
