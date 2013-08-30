@@ -24,7 +24,7 @@ module Mongoid
 
       def increments(field, options={})
         incrementing_fields[field] = options.reverse_merge!(:auto => true)
-        attr_protected field
+        attr_protected(field) if respond_to?(:attr_protected)
       end
 
     end
