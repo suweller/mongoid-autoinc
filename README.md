@@ -1,29 +1,36 @@
-= mongoid-autoinc
-
-= Versions
-
-Use 0.1.3 for mongoid 2.0
-
-use 0.3.0 for mongoid 3.0
-
+# mongoid-autoinc
 
 A mongoid plugin to add auto incrementing fields to your documents.
 
-{<img src="https://secure.travis-ci.org/80beans/mongoid-autoinc.png" />}[http://travis-ci.org/#!/80beans/mongoid-autoinc]
-{<img src="https://codeclimate.com/badge.png" />}[https://codeclimate.com/github/80beans/mongoid-autoinc]
+[![mongoid-autoinc Travis Badge](https://secure.travis-ci.org/80beans/mongoid-autoinc.png)](http://travis-ci.org/#!/80beans/mongoid-autoinc)
+[![Code Climate Badge](https://codeclimate.com/badge.png)](https://codeclimate.com/github/80beans/mongoid-autoinc)
 
-== Installation
+# Versions
+
+Use 0.1.3 for mongoid 2.0
+
+Use 0.3.0 for mongoid 3.0
+
+Use mongoid-4 for mongoid 4.0.
+We'll ship the gem when the mongoid 4.x gem is released.
+
+## Installation
 
 in gemfile:
 
+``` ruby
     gem 'mongoid-autoinc'
+```
 
 in class:
 
+``` ruby
     require 'autoinc'
+```
 
-=== Usage
+## Usage
 
+``` ruby
   # app/models/user.rb
   class User
     include Mongoid::Document
@@ -40,11 +47,13 @@ in class:
 
   another_user = User.create(:name => 'Bob Kelso')
   another_user.number # 2
+```
 
-=== Scopes
+### Scopes
 
 You can scope on document fields. For example:
 
+``` ruby
  class PatientFile
    include Mongoid::Document
    include Mongoid::Autoinc
@@ -57,17 +66,21 @@ You can scope on document fields. For example:
    belongs_to :patient
 
  end
+```
 
 Scope can also be a Proc:
 
+``` ruby
    increments :number, :scope => lambda { patient.name }
+```
 
-=== Custom Increment Trigger
+### Custom Increment Trigger
 
 You can trigger the assignment of an increment field manually by passing:
-+:auto => false+ to the increment field.
+`:auto => false` to the increment field.
 This allows for more flexible assignment of your increment number:
 
+``` ruby
   class Intern
     include Mongoid::Document
     include Mongoid::Autoinc
@@ -86,12 +99,14 @@ This allows for more flexible assignment of your increment number:
     end
 
   end
+```
 
-=== Seeds
+### Seeds
 
 You can use a seed to start the incrementing field at a given value. The first
-document created will start at `seed + 1`.
+document created will start at 'seed + 1'.
 
+``` ruby
   class Vehicle
     include Mongoid::Document
     include Mongoid::Autoinc
@@ -105,13 +120,15 @@ document created will start at `seed + 1`.
 
   car = Vehicle.new(model: "Coupe")
   car.vin # 1001
+```
 
-=== Step
+### Step
 
 The step option can be used to specify the amount to increment the field every
 time a new document is created. If no step is specified, it will increment by
 1.
 
+``` ruby
   class Ticket
     include Mongoid::Document
     include Mongoid::Autoinc
@@ -121,27 +138,33 @@ time a new document is created. If no step is specified, it will increment by
     increments :number, step: 5
 
   end
-
+```
+``` ruby
   first_ticket = Ticket.new
   first_ticket.number # 5
   second_ticket = Ticket.new
   second_ticket.number # 10
+```
 
 The step option can also be a Proc:
 
+``` ruby
   increments :number, step: lambda { 1 + rand(10) }
+```
 
-=== Development
+### Development
 
-  $ gem install bundler (if you don't have it)
-  $ bundle install
-  $ bundle exec spec
+```
+$ gem install bundler (if you don't have it)
+$ bundle install
+$ bundle exec spec
+```
 
-== Contributions
+## Contributions
 
 Thanks to Johnny Shields (@johnnyshields) for implementing proc support to scopes
 And to Marcus Gartner (@mgartner) for implementing the seed functionality
 
-== Copyright
+## Copyright
 
 See LICENSE for details
