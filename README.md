@@ -2,8 +2,8 @@
 
 A mongoid plugin to add auto incrementing fields to your documents.
 
-[![mongoid-autoinc Travis Badge](https://secure.travis-ci.org/80beans/mongoid-autoinc.png)](http://travis-ci.org/#!/80beans/mongoid-autoinc)
-[![Code Climate Badge](https://codeclimate.com/badge.png)](https://codeclimate.com/github/80beans/mongoid-autoinc)
+[![Build Status](https://travis-ci.org/suweller/mongoid-autoinc.png?branch=master)](https://travis-ci.org/suweller/mongoid-autoinc)
+[![Code Climate Badge](https://codeclimate.com/badge.png)](https://codeclimate.com/github/suweller/mongoid-autoinc)
 
 # Versions
 
