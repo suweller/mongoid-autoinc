@@ -3,7 +3,7 @@ PATH
   specs:
     mongoid-autoinc (0.5.1)
       activesupport
-      mongoid (~> 3.0)
+      mongoid (>= 3.0)
       rake
 
 GEM
@@ -28,7 +28,7 @@ GEM
     moped (1.4.5)
     multi_json (1.7.5)
     origin (1.0.11)
-    rake (10.0.4)
+    rake (10.1.0)
     rspec (2.12.0)
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
