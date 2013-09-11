@@ -11,42 +11,42 @@ Use 0.1.3 for mongoid 2.0
 
 Use 0.3.0 for mongoid 3.0
 
-Use mongoid-4 for mongoid 4.0.
-We'll ship the gem when the mongoid 4.x gem is released.
+Use the `mongoid-4` branch for mongoid 4.0.
+We'll ship a new gem version when the mongoid 4.x gem is released.
 
 ## Installation
 
 in gemfile:
 
 ``` ruby
-    gem 'mongoid-autoinc'
+gem 'mongoid-autoinc'
 ```
 
 in class:
 
 ``` ruby
-    require 'autoinc'
+require 'autoinc'
 ```
 
 ## Usage
 
 ``` ruby
-  # app/models/user.rb
-  class User
-    include Mongoid::Document
-    include Mongoid::Autoinc
-    field :name
-    field :number, :type => Integer
+# app/models/user.rb
+class User
+  include Mongoid::Document
+  include Mongoid::Autoinc
+  field :name
+  field :number, :type => Integer
 
-    increments :number
-  end
+  increments :number
+end
 
-  user = User.create(:name => 'Dr. Percival "Perry" Ulysses Cox')
-  user.id # BSON::ObjectId('4d1d150d30f2246bc6000001')
-  user.number # 1
+user = User.create(:name => 'Dr. Percival "Perry" Ulysses Cox')
+user.id # BSON::ObjectId('4d1d150d30f2246bc6000001')
+user.number # 1
 
-  another_user = User.create(:name => 'Bob Kelso')
-  another_user.number # 2
+another_user = User.create(:name => 'Bob Kelso')
+another_user.number # 2
 ```
 
 ### Scopes
@@ -54,24 +54,24 @@ in class:
 You can scope on document fields. For example:
 
 ``` ruby
- class PatientFile
-   include Mongoid::Document
-   include Mongoid::Autoinc
+class PatientFile
+  include Mongoid::Document
+  include Mongoid::Autoinc
 
-   field :name
-   field :number, :type => Integer
+  field :name
+  field :number, :type => Integer
 
-   increments :number, :scope => :patient_id
+  increments :number, :scope => :patient_id
 
-   belongs_to :patient
+  belongs_to :patient
 
- end
+end
 ```
 
 Scope can also be a Proc:
 
 ``` ruby
-   increments :number, :scope => lambda { patient.name }
+increments :number, :scope => lambda { patient.name }
 ```
 
 ### Custom Increment Trigger
@@ -81,24 +81,24 @@ You can trigger the assignment of an increment field manually by passing:
 This allows for more flexible assignment of your increment number:
 
 ``` ruby
-  class Intern
-    include Mongoid::Document
-    include Mongoid::Autoinc
+class Intern
+  include Mongoid::Document
+  include Mongoid::Autoinc
 
-    field :name
-    field :number
+  field :name
+  field :number
 
-    increments :number, :auto => false
+  increments :number, :auto => false
 
-    after_save :assign_number_to_jd
+  after_save :assign_number_to_jd
 
-    protected
+  protected
 
-    def assign_number_to_jd
-      assign!(:number) if number.blank? && name == 'J.D.'
-    end
-
+  def assign_number_to_jd
+    assign!(:number) if number.blank? && name == 'J.D.'
   end
+
+end
 ```
 
 ### Seeds
@@ -107,19 +107,19 @@ You can use a seed to start the incrementing field at a given value. The first
 document created will start at 'seed + 1'.
 
 ``` ruby
-  class Vehicle
-    include Mongoid::Document
-    include Mongoid::Autoinc
+class Vehicle
+  include Mongoid::Document
+  include Mongoid::Autoinc
 
-    field :model
-    field :vin
+  field :model
+  field :vin
 
-    increments :vin, seed: 1000
+  increments :vin, seed: 1000
 
-  end
+end
 
-  car = Vehicle.new(model: "Coupe")
-  car.vin # 1001
+car = Vehicle.new(model: "Coupe")
+car.vin # 1001
 ```
 
 ### Step
@@ -129,27 +129,27 @@ time a new document is created. If no step is specified, it will increment by
 1.
 
 ``` ruby
-  class Ticket
-    include Mongoid::Document
-    include Mongoid::Autoinc
+class Ticket
+  include Mongoid::Document
+  include Mongoid::Autoinc
 
-    field :number
+  field :number
 
-    increments :number, step: 5
+  increments :number, step: 5
 
-  end
+end
 ```
 ``` ruby
-  first_ticket = Ticket.new
-  first_ticket.number # 5
-  second_ticket = Ticket.new
-  second_ticket.number # 10
+first_ticket = Ticket.new
+first_ticket.number # 5
+second_ticket = Ticket.new
+second_ticket.number # 10
 ```
 
 The step option can also be a Proc:
 
 ``` ruby
-  increments :number, step: lambda { 1 + rand(10) }
+increments :number, step: lambda { 1 + rand(10) }
 ```
 
 ### Development
