@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/80beans/mongoid-autoinc"
   s.summary     = %q{Add auto incrementing fields to mongoid documents}
   s.description = %q{Think auto incrementing field from MySQL for mongoid.}
-  s.files        = Dir.glob("lib/**/*") + %w(README.rdoc)
+  s.files        = Dir.glob("lib/**/*") + %w(README.md)
   s.require_path = 'lib'
 
   s.add_dependency 'mongoid', '~> 3.0'
