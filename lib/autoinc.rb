@@ -44,11 +44,11 @@ module Mongoid
 
     def increment!(field, options)
       options = options.dup
+      model_name = (options.delete(:model_name) || self.class.model_name).to_s
       options[:scope] = evaluate_scope(options[:scope]) if options[:scope]
       options[:step] = evaluate_step(options[:step]) if options[:step]
       write_attribute(
-          field.to_sym, Mongoid::Autoinc::Incrementor.new(
-          self.class.model_name, field, options).inc
+          field.to_sym, Mongoid::Autoinc::Incrementor.new(model_name, field, options).inc
       )
     end
 

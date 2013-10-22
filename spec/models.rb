@@ -80,3 +80,13 @@ class LotteryTicket
   increments :number, step: lambda { start + 1 }
 
 end
+
+class Stethoscope
+  include Mongoid::Document
+  include Mongoid::Autoinc
+
+  field :number
+
+  increments :number, model_name: :stetho
+
+end

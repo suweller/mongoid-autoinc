@@ -101,6 +101,23 @@ class Intern
 end
 ```
 
+### Custom Model Name
+
+You can override the model name used to generate the autoincrement keys. This can be useful
+when working with subclasses or namespaces.
+
+``` ruby
+class Intern
+  include Mongoid::Document
+  include Mongoid::Autoinc
+
+  field :name
+  field :number
+
+  increments :number, model_name => :foo
+end
+```
+
 ### Seeds
 
 You can use a seed to start the incrementing field at a given value. The first

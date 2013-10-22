@@ -208,5 +208,16 @@ describe "Mongoid::Autoinc" do
         end
       end
     end
+
+    context "with model_name" do
+      let(:stethoscope) { Stethoscope.new }
+
+      it "should call the autoincrementor with the options hash" do
+        Mongoid::Autoinc::Incrementor.should_receive(:new).
+            with('stetho', :number, {auto: true}).and_return(incrementor)
+
+        stethoscope.save!
+      end
+    end
   end
 end
