@@ -54,17 +54,17 @@ module Mongoid
 
     def evaluate_scope(scope)
       case scope
-        when Symbol then send(scope)
-        when Proc then instance_exec &scope
-        else raise 'scope is not a Symbol or a Proc'
+      when Symbol then send(scope)
+      when Proc then instance_exec &scope
+      else raise 'scope is not a Symbol or a Proc'
       end
     end
 
     def evaluate_step(step)
       case step
-        when Integer then step
-        when Proc then evaluate_step_proc(step)
-        else raise 'step is not an Integer or a Proc'
+      when Integer then step
+      when Proc then evaluate_step_proc(step)
+      else raise 'step is not an Integer or a Proc'
       end
     end
 
