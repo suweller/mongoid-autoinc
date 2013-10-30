@@ -160,6 +160,15 @@ $ bundle install
 $ bundle exec spec
 ```
 
+## Contributing
+
+* Fork and create a topic branch.
+* Follow the
+  [80beans styleguide](https://gist.github.com/b896eb9e66fc6ab3640d).
+  Basically the [rubystyleguide](https://github.com/bbatsov/ruby-style-guide/)
+  with some minor changes.
+* Submit a pull request
+
 ## Contributions
 
 Thanks to Johnny Shields (@johnnyshields) for implementing proc support to scopes
