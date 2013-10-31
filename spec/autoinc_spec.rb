@@ -62,7 +62,7 @@ describe "Mongoid::Autoinc" do
 
   context "instance methods" do
     let(:incrementor) { Object.new }
-    before { incrementor.stub!(:inc).and_return(1) }
+    before { incrementor.stub(:inc).and_return(1) }
 
     context "without scope" do
       subject { User.new }
@@ -81,7 +81,7 @@ describe "Mongoid::Autoinc" do
         end
 
         describe "writing the attribute" do
-          before { Mongoid::Autoinc::Incrementor.stub!(:new).and_return(incrementor) }
+          before { Mongoid::Autoinc::Incrementor.stub(:new).and_return(incrementor) }
 
           it "should write the returned incrementor attribute" do
             expect{
@@ -206,6 +206,17 @@ describe "Mongoid::Autoinc" do
 
           lottery_ticket.save!
         end
+      end
+    end
+
+    context "with model_name" do
+      let(:stethoscope) { Stethoscope.new }
+
+      it "should call the autoincrementor with the options hash" do
+        Mongoid::Autoinc::Incrementor.should_receive(:new).
+            with('stetho', :number, {auto: true}).and_return(incrementor)
+
+        stethoscope.save!
       end
     end
   end

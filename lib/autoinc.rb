@@ -44,37 +44,34 @@ module Mongoid
 
     def increment!(field, options)
       options = options.dup
+      model_name = (options.delete(:model_name) || self.class.model_name).to_s
       options[:scope] = evaluate_scope(options[:scope]) if options[:scope]
       options[:step] = evaluate_step(options[:step]) if options[:step]
       write_attribute(
-          field.to_sym, Mongoid::Autoinc::Incrementor.new(
-          self.class.model_name, field, options).inc
+          field.to_sym, Mongoid::Autoinc::Incrementor.new(model_name, field, options).inc
       )
     end
 
     def evaluate_scope(scope)
-      if scope.is_a? Symbol
-        send(scope)
-      elsif scope.is_a? Proc
-        instance_exec &scope
-      else
-        raise 'scope is not a Symbol or a Proc'
+      case scope
+      when Symbol then send(scope)
+      when Proc then instance_exec &scope
+      else raise 'scope is not a Symbol or a Proc'
       end
     end
 
     def evaluate_step(step)
-      if step.is_a? Integer
-        return step
-      elsif step.is_a? Proc
-        result = instance_exec &step
-        if result.is_a? Integer
-          return result
-        else
-          raise 'step Proc does not evaluate to an Integer'
-        end
-      else
-        raise 'step is not an Integer or a Proc'
+      case step
+      when Integer then step
+      when Proc then evaluate_step_proc(step)
+      else raise 'step is not an Integer or a Proc'
       end
+    end
+
+    def evaluate_step_proc(step_proc)
+      result = instance_exec &step_proc
+      return result if result.is_a? Integer
+      raise 'step Proc does not evaluate to an Integer'
     end
 
   end
