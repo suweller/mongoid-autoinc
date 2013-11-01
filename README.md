@@ -191,6 +191,9 @@ $ bundle exec spec
 Thanks to Johnny Shields (@johnnyshields) for implementing proc support to scopes
 And to Marcus Gartner (@mgartner) for implementing the seed functionality
 
+Kris Martin (@krismartin) and Johnny Shields (@johnnyshields) for adding the
+overwritten model name feature
+
 ## Copyright
 
 See LICENSE for details
