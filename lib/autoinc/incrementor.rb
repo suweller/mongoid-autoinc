@@ -6,7 +6,7 @@ module Mongoid
       attr_accessor :model_name, :field_name, :scope_key, :collection, :seed, :step
 
       def initialize(model_name, field_name, options={})
-        self.model_name = model_name
+        self.model_name = model_name.to_s
         self.field_name = field_name.to_s
         self.scope_key = options[:scope]
         self.step = options[:step] || 1
