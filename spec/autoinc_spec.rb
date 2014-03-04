@@ -13,17 +13,11 @@ describe "Mongoid::Autoinc" do
       subject { User.incrementing_fields }
 
       it { should == {:number => {:auto => true}} }
-      it "should protect number" do
-        User.protected_attributes.include? :number
-      end
 
       context "for SpecialUser" do
         subject { SpecialUser.incrementing_fields }
 
         it { should == {:number => {:auto => true}} }
-        it "should protect number" do
-          User.protected_attributes.include? :number
-        end
       end
 
       context "for PatientFile" do
