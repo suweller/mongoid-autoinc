@@ -13,7 +13,8 @@ Gem::Specification.new do |s|
   s.description = %q{Think auto incrementing field from MySQL for mongoid.}
   s.files        = Dir.glob("lib/**/*") + %w(README.rdoc)
   s.require_path = 'lib'
- 
+  
+  s.add_dependency 'mongoid', '>= 3.0'
   s.add_dependency 'activesupport'
   s.add_dependency 'rake'
   s.add_development_dependency 'foreman'
