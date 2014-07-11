@@ -18,7 +18,9 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
 
   s.add_dependency 'mongoid', '~> 4.0'
+
   s.add_development_dependency 'rake'
   s.add_development_dependency 'foreman'
   s.add_development_dependency 'rspec'
+  s.add_development_dependency 'pry'
 end
