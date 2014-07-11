@@ -35,7 +35,7 @@ class User
   include Mongoid::Document
   include Mongoid::Autoinc
   field :name
-  field :number, :type => Integer
+  field :number, type: Integer
 
   increments :number
 end
