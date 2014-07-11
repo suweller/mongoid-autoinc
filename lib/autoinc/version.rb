@@ -1,5 +1,5 @@
 module Mongoid
   module Autoinc
-    VERSION = "0.5.1"
+    VERSION = "4.0.0"
   end
 end
