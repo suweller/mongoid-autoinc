@@ -7,23 +7,17 @@ describe "Mongoid::Autoinc" do
     subject { User }
 
     it { should respond_to(:increments) }
-    it { should respond_to :incrementing_fields }
+    it { should respond_to(:incrementing_fields) }
 
-    describe "incrementing_fields" do
+    describe ".incrementing_fields" do
       subject { User.incrementing_fields }
 
       it { should == {:number => {:auto => true}} }
-      it "should protect number" do
-        User.protected_attributes.include? :number
-      end
 
       context "for SpecialUser" do
         subject { SpecialUser.incrementing_fields }
 
         it { should == {:number => {:auto => true}} }
-        it "should protect number" do
-          User.protected_attributes.include? :number
-        end
       end
 
       context "for PatientFile" do
@@ -57,6 +51,12 @@ describe "Mongoid::Autoinc" do
         it { should == {:number => {:step => subject[:number][:step], :auto => true}} }
         it { subject[:number][:step].should be_a Proc }
       end
+    end
+
+    describe ".increments" do
+      before { SpecialUser.stub(:attr_protected) }
+      specify { SpecialUser.should_receive(:attr_protected).with(:foo) }
+      after { SpecialUser.increments(:foo) }
     end
   end
 
