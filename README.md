@@ -11,8 +11,7 @@ Use 0.1.3 for mongoid 2.0
 
 Use 0.3.0 for mongoid 3.0
 
-Use the `mongoid-4` branch for mongoid 4.0.
-We'll ship a new gem version when the mongoid 4.x gem is released.
+Use 4.x.x for mongoid 4
 
 ## Installation
 
@@ -41,11 +40,11 @@ class User
   increments :number
 end
 
-user = User.create(:name => 'Dr. Percival "Perry" Ulysses Cox')
+user = User.create(name: 'Dr. Percival "Perry" Ulysses Cox')
 user.id # BSON::ObjectId('4d1d150d30f2246bc6000001')
 user.number # 1
 
-another_user = User.create(:name => 'Bob Kelso')
+another_user = User.create(name: 'Bob Kelso')
 another_user.number # 2
 ```
 
@@ -59,9 +58,9 @@ class PatientFile
   include Mongoid::Autoinc
 
   field :name
-  field :number, :type => Integer
+  field :number, type: Integer
 
-  increments :number, :scope => :patient_id
+  increments :number, scope: :patient_id
 
   belongs_to :patient
 
@@ -71,13 +70,13 @@ end
 Scope can also be a Proc:
 
 ``` ruby
-increments :number, :scope => lambda { patient.name }
+increments :number, scope: -> { patient.name }
 ```
 
 ### Custom Increment Trigger
 
 You can trigger the assignment of an increment field manually by passing:
-`:auto => false` to the increment field.
+`auto: false` to the increment field.
 This allows for more flexible assignment of your increment number:
 
 ``` ruby
@@ -88,11 +87,11 @@ class Intern
   field :name
   field :number
 
-  increments :number, :auto => false
+  increments :number, auto: false
 
   after_save :assign_number_to_jd
 
-  protected
+protected
 
   def assign_number_to_jd
     assign!(:number) if number.blank? && name == 'J.D.'
@@ -166,7 +165,7 @@ second_ticket.number # 10
 The step option can also be a Proc:
 
 ``` ruby
-increments :number, step: lambda { 1 + rand(10) }
+increments :number, step: -> { 1 + rand(10) }
 ```
 
 ### Development
