@@ -7,42 +7,42 @@ describe "Mongoid::Autoinc::Incrementor" do
   describe "model name" do
     subject { incrementor.model_name }
 
-    it { should == 'User' }
+    it { should eq('User') }
   end
 
   describe "field name" do
     subject { incrementor.field_name }
 
-    it { should == 'number' }
+    it { should eq('number') }
   end
 
   describe "scope key" do
     subject { incrementor.scope_key }
 
-    it { should == '123' }
+    it { should eq('123') }
   end
 
   describe "seed" do
     subject { incrementor.seed }
 
-    it { should == 100 }
+    it { should eq(100) }
   end
 
   describe "step" do
     subject { incrementor.step }
 
-    it { should == 2 }
+    it { should eq(2) }
   end
 
   describe "#key" do
     subject { incrementor.key }
 
-    it { should == 'user_number_123' }
+    it { should eq('user_number_123') }
 
     context "without scope" do
       subject { Mongoid::Autoinc::Incrementor.new('User', :number).key }
 
-      it { should == 'user_number'}
+      it { should eq('user_number')}
     end
 
     context "for a subclass" do
@@ -50,7 +50,7 @@ describe "Mongoid::Autoinc::Incrementor" do
         Mongoid::Autoinc::Incrementor.new('SpecialUser', :number, options)
       end
 
-      it { should == 'special_user_number_123' }
+      it { should eq('special_user_number_123') }
     end
   end
 
@@ -62,7 +62,7 @@ describe "Mongoid::Autoinc::Incrementor" do
 
       it "should increment the number for each document" do
         (1..10).each do |incrementing_number|
-          User.create!(:name => 'Bob Kelso').number.should == incrementing_number
+          User.create!(:name => 'Bob Kelso').number.should eq(incrementing_number)
         end
       end
     end
@@ -72,7 +72,7 @@ describe "Mongoid::Autoinc::Incrementor" do
 
       it "should start the incrementor at the seed value" do
         (1..10).each do |i|
-          Vehicle.create(model: "Coupe").vin.should == 1000 + i
+          Vehicle.create(model: "Coupe").vin.should eq(1000 + i)
         end
       end
     end
@@ -82,7 +82,7 @@ describe "Mongoid::Autoinc::Incrementor" do
 
       it "should increment according to the step value" do
         (1..10).each do |i|
-          Ticket.create.number.should == 2 * i
+          Ticket.create.number.should eq(2 * i)
         end
       end
     end
@@ -91,9 +91,9 @@ describe "Mongoid::Autoinc::Incrementor" do
       before { LotteryTicket.delete_all }
 
       it "should increment according to the step value" do
-        LotteryTicket.create(start: 10).number.should == 11
-        LotteryTicket.create(start: 30).number.should == 42
-        LotteryTicket.create.number.should == 43
+        LotteryTicket.create(start: 10).number.should eq(11)
+        LotteryTicket.create(start: 30).number.should eq(42)
+        LotteryTicket.create.number.should eq(43)
       end
     end
   end

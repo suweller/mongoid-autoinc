@@ -12,43 +12,43 @@ describe "Mongoid::Autoinc" do
     describe ".incrementing_fields" do
       subject { User.incrementing_fields }
 
-      it { should == {:number => {:auto => true}} }
+      it { should eq(:number => {:auto => true}) }
 
       context "for SpecialUser" do
         subject { SpecialUser.incrementing_fields }
 
-        it { should == {:number => {:auto => true}} }
+        it { should eq(:number => {:auto => true}) }
       end
 
       context "for PatientFile" do
         subject { PatientFile.incrementing_fields }
 
-        it { should == {:file_number => {:scope => :name, :auto => true}} }
+        it { should eq(:file_number => {:scope => :name, :auto => true}) }
       end
 
       context "for Operation" do
         subject { Operation.incrementing_fields }
 
-        it { should == {:op_number => {:scope => subject[:op_number][:scope], :auto => true}} }
+        it { should eq(:op_number => {:scope => subject[:op_number][:scope], :auto => true}) }
         it { subject[:op_number][:scope].should be_a Proc }
       end
 
       context "for Vehicle" do
         subject { Vehicle.incrementing_fields }
 
-        it { should == {:vin => {:seed => 1000, :auto => true}} }
+        it { should eq(:vin => {:seed => 1000, :auto => true}) }
       end
 
       context "for Ticket" do
         subject { Ticket.incrementing_fields }
 
-        it { should == {:number => {:step => 2, :auto => true}} }
+        it { should eq(:number => {:step => 2, :auto => true}) }
       end
 
       context "for LotteryTicket" do
         subject { LotteryTicket.incrementing_fields }
 
-        it { should == {:number => {:step => subject[:number][:step], :auto => true}} }
+        it { should eq(:number => {:step => subject[:number][:step], :auto => true}) }
         it { subject[:number][:step].should be_a Proc }
       end
     end
