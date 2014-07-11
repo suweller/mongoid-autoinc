@@ -1,11 +1,16 @@
 module Mongoid
-
   module Autoinc
-
     class Incrementor
-      attr_accessor :model_name, :field_name, :scope_key, :collection, :seed, :step
+      attr_accessor(
+        :model_name,
+        :field_name,
+        :scope_key,
+        :collection,
+        :seed,
+        :step,
+      )
 
-      def initialize(model_name, field_name, options={})
+      def initialize(model_name, field_name, options = {})
         self.model_name = model_name.to_s
         self.field_name = field_name.to_s
         self.scope_key = options[:scope]
@@ -16,7 +21,7 @@ module Mongoid
       end
 
       def key
-        "".tap do |str|
+        ''.tap do |str|
           str << "#{model_name.underscore}_#{field_name}"
           str << "_#{scope_key}" unless scope_key.blank?
         end
@@ -26,8 +31,8 @@ module Mongoid
         collection.find(
           '_id' => key
         ).modify(
-          {'$inc' => { 'c' => step }},
-          :new => true, :upsert => true
+          {'$inc' => {'c' => step}},
+          new: true, upsert: true
         )['c']
       end
 
@@ -38,11 +43,8 @@ module Mongoid
       end
 
       def create
-        collection.insert({'_id' => key, 'c' => seed})
+        collection.insert('_id' => key, 'c' => seed)
       end
-
     end
-
   end
-
 end

@@ -1,7 +1,6 @@
 require 'autoinc/incrementor'
 
 module Mongoid
-
   module Autoinc
     extend ActiveSupport::Concern
 
@@ -13,7 +12,6 @@ module Mongoid
     end
 
     module ClassMethods
-
       def incrementing_fields
         if superclass.respond_to?(:incrementing_fields)
           @incrementing_fields ||= superclass.incrementing_fields.dup
@@ -22,17 +20,16 @@ module Mongoid
         end
       end
 
-      def increments(field, options={})
-        incrementing_fields[field] = options.reverse_merge!(:auto => true)
+      def increments(field, options = {})
+        incrementing_fields[field] = options.reverse_merge!(auto: true)
         attr_protected(field) if respond_to?(:attr_protected)
       end
-
     end
 
     def assign!(field)
       options = self.class.incrementing_fields[field]
-      raise AutoIncrementsError if options[:auto]
-      raise AlreadyAssignedError if send(field).present?
+      fail AutoIncrementsError if options[:auto]
+      fail AlreadyAssignedError if send(field).present?
       increment!(field, options)
     end
 
@@ -48,32 +45,27 @@ module Mongoid
       options[:scope] = evaluate_scope(options[:scope]) if options[:scope]
       options[:step] = evaluate_step(options[:step]) if options[:step]
       write_attribute(
-          field.to_sym, Mongoid::Autoinc::Incrementor.new(model_name, field, options).inc
+          field.to_sym,
+          Mongoid::Autoinc::Incrementor.new(model_name, field, options).inc
       )
     end
 
     def evaluate_scope(scope)
-      case scope
-      when Symbol then send(scope)
-      when Proc then instance_exec &scope
-      else raise 'scope is not a Symbol or a Proc'
-      end
+      return send(scope) if scope.is_a? Symbol
+      return instance_exec(&scope) if scope.is_a? Proc
+      fail 'scope is not a Symbol or a Proc'
     end
 
     def evaluate_step(step)
-      case step
-      when Integer then step
-      when Proc then evaluate_step_proc(step)
-      else raise 'step is not an Integer or a Proc'
-      end
+      return step if step.is_a? Integer
+      return evaluate_step_proc(step) if step.is_a? Proc
+      fail 'step is not an Integer or a Proc'
     end
 
     def evaluate_step_proc(step_proc)
-      result = instance_exec &step_proc
+      result = instance_exec(&step_proc)
       return result if result.is_a? Integer
-      raise 'step Proc does not evaluate to an Integer'
+      fail 'step Proc does not evaluate to an Integer'
     end
-
   end
-
 end
