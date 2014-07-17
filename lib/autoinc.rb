@@ -1,8 +1,18 @@
 require 'autoinc/incrementor'
 
+# namespace all +Mongoid::Autoinc+ functionality to +Mongoid+ to reduce
+# possible clashes with other gems.
 module Mongoid
-  # include module to allow definition of autoincrementing fields in
-  # +Mongoid::Document+ objects.
+  # Include module to allow defining of autoincrementing fields.
+  #
+  # @example
+  #   class Invoice
+  #     include Mongoid::Document
+  #     include Mongoid::Autoinc
+  #
+  #     field :number, type: Integer
+  #     increments :number
+  #   end
   module Autoinc
     extend ActiveSupport::Concern
 
@@ -11,8 +21,19 @@ module Mongoid
 
     included { before_create(:update_auto_increments) }
 
+    # +Mongoid::Autoinc+ class methods to allow for autoincrementing fields.
     module ClassMethods
       # Returns all incrementing fields of the document
+      #
+      # @example
+      #   class Invoice
+      #     include Mongoid::Document
+      #     include Mongoid::Autoinc
+      #
+      #     field :number, type: Integer
+      #     increments :number
+      #   end
+      #   Invoice.incrementing_fields # => {number: {auto: true}}
       #
       # @return [ Hash ] +Hash+ with fields and their autoincrement options
       def incrementing_fields
@@ -27,6 +48,24 @@ module Mongoid
       #
       # @param [ Symbol ] field The name of the field to apply autoincrement to
       # @param [ Hash ] options The options to pass to that field
+      #
+      # @example
+      #   class Invoice
+      #     include Mongoid::Document
+      #     include Mongoid::Autoinc
+      #
+      #     field :number, type: Integer
+      #     increments :number
+      #   end
+      #
+      # @example
+      #   class User
+      #     include Mongoid::Document
+      #     include Mongoid::Autoinc
+      #
+      #     field :number, type: Integer
+      #     increments :number, auto: false
+      #   end
       def increments(field, options = {})
         incrementing_fields[field] = options.reverse_merge!(auto: true)
         attr_protected(field) if respond_to?(:attr_protected)
