@@ -62,75 +62,66 @@ describe 'Mongoid::Autoinc' do
     before { allow(incrementor).to receive(:inc).and_return(1) }
 
     context 'without scope' do
+      let(:user) { User.new(name: 'Dr. Cox') }
       subject { User.new }
 
       it { should respond_to(:update_auto_increments) }
 
-      describe 'before create' do
-        let(:user) { User.new(name: 'Dr. Cox') }
+      it 'calls the autoincrementor' do
+        expect(Mongoid::Autoinc::Incrementor).to receive(:new)
+          .with('User', :number, auto: true)
+          .and_return(incrementor)
+        user.save!
+      end
 
-        it 'calls the autoincrementor' do
-          expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-            .with('User', :number, auto: true)
+      describe 'writing the attribute' do
+        before do
+          allow(Mongoid::Autoinc::Incrementor).to receive(:new)
             .and_return(incrementor)
-          user.save!
         end
 
-        describe 'writing the attribute' do
-          before do
-            allow(Mongoid::Autoinc::Incrementor).to receive(:new)
-              .and_return(incrementor)
-          end
-
-          it 'writes the returned incrementor attribute' do
-            expect { user.save! }.to change(user, :number).from(nil).to(1)
-          end
+        it 'writes the returned incrementor attribute' do
+          expect { user.save! }.to change(user, :number).from(nil).to(1)
         end
+      end
 
-        describe '#assign!' do
-          it 'raises AutoIncrementsError' do
-            expect { subject.assign!(:number) }
-              .to raise_error(Mongoid::Autoinc::AutoIncrementsError)
-          end
+      describe '#assign!' do
+        it 'raises AutoIncrementsError' do
+          expect { subject.assign!(:number) }
+            .to raise_error(Mongoid::Autoinc::AutoIncrementsError)
         end
       end
     end
 
     context 'with scope as symbol' do
-      describe 'before create' do
-        let(:patient_file) { PatientFile.new(name: 'Dr. Cox') }
+      let(:patient_file) { PatientFile.new(name: 'Dr. Cox') }
 
-        it 'should call the autoincrementor' do
-          expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-            .with('PatientFile', :file_number, scope: 'Dr. Cox', auto: true)
-            .and_return(incrementor)
-          patient_file.save!
-        end
+      it 'should call the autoincrementor' do
+        expect(Mongoid::Autoinc::Incrementor).to receive(:new)
+          .with('PatientFile', :file_number, scope: 'Dr. Cox', auto: true)
+          .and_return(incrementor)
+        patient_file.save!
       end
     end
 
     context 'with scope as proc' do
-      describe 'before create' do
-        let(:user) { User.new(name: 'Dr. Cox') }
-        let(:operation) { Operation.new(name: 'Heart Transplant', user: user) }
+      let(:user) { User.new(name: 'Dr. Cox') }
+      let(:operation) { Operation.new(name: 'Heart Transplant', user: user) }
 
-        it 'calls the autoincrementor' do
-          expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-            .with('Operation', :op_number, scope: 'Dr. Cox', auto: true)
-            .and_return(incrementor)
-          operation.save!
-        end
+      it 'calls the autoincrementor' do
+        expect(Mongoid::Autoinc::Incrementor).to receive(:new)
+          .with('Operation', :op_number, scope: 'Dr. Cox', auto: true)
+          .and_return(incrementor)
+        operation.save!
       end
     end
 
     context 'without auto' do
       subject { Intern.new }
 
-      describe 'before create' do
-        it 'should not call the autoincrementor' do
-          expect(Mongoid::Autoinc::Incrementor).to_not receive(:new)
-          subject.save!
-        end
+      it 'should not call the autoincrementor' do
+        expect(Mongoid::Autoinc::Incrementor).to_not receive(:new)
+        subject.save!
       end
 
       describe '#assign!' do
@@ -165,47 +156,37 @@ describe 'Mongoid::Autoinc' do
     end
 
     context 'with seed' do
-      describe 'before create' do
-        let(:vehicle) { Vehicle.new(model: 'Coupe') }
-
-        it 'calls the autoincrementor with the seed value' do
-          expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-            .with('Vehicle', :vin, seed: 1000, auto: true)
-            .and_return(incrementor)
-          vehicle.save!
-        end
+      let(:vehicle) { Vehicle.new(model: 'Coupe') }
+      it 'calls the autoincrementor with the seed value' do
+        expect(Mongoid::Autoinc::Incrementor).to receive(:new)
+          .with('Vehicle', :vin, seed: 1000, auto: true)
+          .and_return(incrementor)
+        vehicle.save!
       end
     end
 
     context 'with Integer step' do
-      describe 'before create' do
-        let(:ticket) { Ticket.new }
-
-        it 'calls the autoincrementor with the options hash' do
-          expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-            .with('Ticket', :number, step: 2, auto: true)
-            .and_return(incrementor)
-          ticket.save!
-        end
+      let(:ticket) { Ticket.new }
+      it 'calls the autoincrementor with the options hash' do
+        expect(Mongoid::Autoinc::Incrementor).to receive(:new)
+          .with('Ticket', :number, step: 2, auto: true)
+          .and_return(incrementor)
+        ticket.save!
       end
     end
 
     context 'with Proc step' do
-      describe 'before create' do
-        let(:lottery_ticket) { LotteryTicket.new(start: 10) }
-
-        it 'calls the autoincrementor with the options hash' do
-          expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-            .with('LotteryTicket', :number, step: 11, auto: true)
-            .and_return(incrementor)
-          lottery_ticket.save!
-        end
+      let(:lottery_ticket) { LotteryTicket.new(start: 10) }
+      it 'calls the autoincrementor with the options hash' do
+        expect(Mongoid::Autoinc::Incrementor).to receive(:new)
+          .with('LotteryTicket', :number, step: 11, auto: true)
+          .and_return(incrementor)
+        lottery_ticket.save!
       end
     end
 
     context 'with model_name' do
       let(:stethoscope) { Stethoscope.new }
-
       it 'calls the autoincrementor with the options hash' do
         expect(Mongoid::Autoinc::Incrementor).to receive(:new)
           .with('stetho', :number, auto: true)
