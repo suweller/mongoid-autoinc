@@ -7,9 +7,7 @@ module Mongoid
     AlreadyAssignedError = Class.new(StandardError)
     AutoIncrementsError = Class.new(StandardError)
 
-    included do
-      before_create :update_auto_increments
-    end
+    included { before_create(:update_auto_increments) }
 
     module ClassMethods
       def incrementing_fields
