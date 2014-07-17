@@ -1,6 +1,8 @@
 require 'autoinc/incrementor'
 
 module Mongoid
+  # include module to allow definition of autoincrementing fields in
+  # +Mongoid::Document+ objects.
   module Autoinc
     extend ActiveSupport::Concern
 
