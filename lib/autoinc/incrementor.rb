@@ -3,14 +3,24 @@ module Mongoid
     # Object which wraps the mongodb operations needed to allow for
     # autoincrementing fields in +Mongoid::Document+ models.
     class Incrementor
-      attr_accessor(
-        :model_name,
-        :field_name,
-        :scope_key,
-        :collection,
-        :seed,
-        :step,
-      )
+      # The name of the autoincrementing model.
+      attr_reader(:model_name)
+
+      # The name of the field of the autoincrementing model.
+      attr_reader(:field_name)
+
+      # The constraint, allowing for more then one series on the same
+      # +model_name+ +field_name+ combination.
+      attr_reader(:scope_key)
+
+      # The mongo connection to the autoincrement counters collection.
+      attr_reader(:collection)
+
+      # The autoincrement offset.
+      attr_reader(:seed)
+
+      # How the next autoincrement number should be calculated.
+      attr_reader(:step)
 
       # Creates a new incrementor object for the passed +field_name+
       #
@@ -19,13 +29,13 @@ module Mongoid
       # @param [ Hash ] options Options to pass to the incrementer
       #
       def initialize(model_name, field_name, options = {})
-        self.model_name = model_name.to_s
-        self.field_name = field_name.to_s
-        self.scope_key = options.fetch(:scope, nil)
-        self.step = options.fetch(:step, 1)
-        self.seed = options.fetch(:seed, nil)
-        self.collection = ::Mongoid.default_session['auto_increment_counters']
-        create if seed && !exists?
+        @model_name = model_name.to_s
+        @field_name = field_name.to_s
+        @scope_key = options.fetch(:scope, nil)
+        @step = options.fetch(:step, 1)
+        @seed = options.fetch(:seed, nil)
+        @collection = ::Mongoid.default_session['auto_increment_counters']
+        create if @seed && !exists?
       end
 
       # Returns the increment key
