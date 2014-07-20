@@ -74,6 +74,10 @@ module Mongoid
 
     # Manually assign the next number to the passed autoinc field.
     #
+    # @raise [ Mongoid::Autoinc::AutoIncrementsError ] When `auto: true` is set
+    # in the increments call for `field`
+    # @raise [ AlreadyAssignedError ] When called more then once.
+    #
     # @return [ Fixnum ] The assigned number
     def assign!(field)
       options = self.class.incrementing_fields[field]
@@ -113,11 +117,13 @@ module Mongoid
     #
     # @param [ Object ] scope The +Symbol+ or +Proc+ to evaluate
     #
+    # @raise [ ArgumentError ] When +scope+ is not a +Symbol+ or +Proc+
+    #
     # @return [ Object ] The scope of the autoincrement call
     def evaluate_scope(scope)
       return send(scope) if scope.is_a? Symbol
       return instance_exec(&scope) if scope.is_a? Proc
-      fail 'scope is not a Symbol or a Proc'
+      fail ArgumentError, 'scope is not a Symbol or a Proc'
     end
 
     # Returns the number to add to the current increment
@@ -125,16 +131,20 @@ module Mongoid
     # @param [ Object ] step The +Integer+ to be returned
     # or +Proc+ to be evaluated
     #
+    # @raise [ ArgumentError ] When +step+ is not an +Integer+ or +Proc+
+    #
     # @return [ Integer ] The number to add to the current increment
     def evaluate_step(step)
       return step if step.is_a? Integer
       return evaluate_step_proc(step) if step.is_a? Proc
-      fail 'step is not an Integer or a Proc'
+      fail ArgumentError, 'step is not an Integer or a Proc'
     end
 
     # Executes a proc and returns its +Integer+ value
     #
     # @param [ Proc ] step_proc The +Proc+ to call
+    #
+    # @raise [ ArgumentError ] When +step_proc+ does not evaluate to +Integer+
     #
     # @return [ Integer ] The number to add to the current increment
     def evaluate_step_proc(step_proc)
