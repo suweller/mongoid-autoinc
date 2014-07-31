@@ -3,14 +3,13 @@
 A mongoid plugin to add auto incrementing fields to your documents.
 
 [![Inline docs](
-http://inch-ci.org/github/suweller/mongoid-autoinc.svg?branch=master
+http://inch-ci.org/github/suweller/mongoid-autoinc.svg?branch=master&style=flat
 )](http://inch-ci.org/github/suweller/mongoid-autoinc)
-
 [![Code Climate](
-http://img.shields.io/codeclimate/github/suweller/mongoid-autoinc.svg
+http://img.shields.io/codeclimate/github/suweller/mongoid-autoinc.svg?style=flat
 )](https://codeclimate.com/github/suweller/mongoid-autoinc)
 [![Build Status](
-http://img.shields.io/travis/suweller/mongoid-autoinc.svg
+http://img.shields.io/travis/suweller/mongoid-autoinc.svg?style=flat
 )](https://travis-ci.org/suweller/mongoid-autoinc)
 
 # Versions
