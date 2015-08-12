@@ -50,7 +50,7 @@ module Mongoid
       #
       # @return [ Integer ] The next value of the incrementor
       def inc
-        find.modify({'$inc' => {c: step}}, new: true, upsert: true).fetch('c')
+        find.find_one_and_update({'$inc' => {c: step}}, upsert: true, return_document: :after).fetch('c')
       end
 
       private
@@ -65,7 +65,7 @@ module Mongoid
       # Persists the incrementor using +key+ as id and +seed+ as value of +c+.
       #
       def create
-        collection.insert(_id: key, c: seed)
+        collection.insert_one(_id: key, c: seed)
       end
 
       # Checks if the incrementor is persisted

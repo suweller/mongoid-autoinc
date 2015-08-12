@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'mongoid', '~> 3.0.0'
+gem 'mongoid', '~> 5.0.0.beta'
 gem 'rspec'
 gem 'activesupport'
 gem 'rake'
