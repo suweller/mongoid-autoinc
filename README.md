@@ -20,6 +20,8 @@ Use 0.3.0 for mongoid 3.0
 
 Use 4.x.x for mongoid 4
 
+Use 5.x.x for mongoid 5
+
 ## Installation
 
 in gemfile:
