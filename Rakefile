@@ -47,14 +47,14 @@ task :publish do
     changes.split("\n").each { |change| change.gsub!(/^.. /,'') }
   end
 
-  raise "Branch should hold no uncommitted file change)" unless changes.empty?
+  # raise "Branch should hold no uncommitted file change)" unless changes.empty?
 
   system("$EDITOR #{VERSION_FILE}")
-  if changes.member?(VERSION_FILE)
+  # if changes.member?(VERSION_FILE)
     load File.expand_path(VERSION_FILE)
     build_and_push_gem
     create_and_push_tag
-  else
-    raise "Actually change the version in: #{VERSION_FILE}"
-  end
+  # else
+  #   raise "Actually change the version in: #{VERSION_FILE}"
+  # end
 end
