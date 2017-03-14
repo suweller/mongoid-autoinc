@@ -12,16 +12,6 @@ http://img.shields.io/codeclimate/github/suweller/mongoid-autoinc.svg?style=flat
 http://img.shields.io/travis/suweller/mongoid-autoinc.svg?style=flat
 )](https://travis-ci.org/suweller/mongoid-autoinc)
 
-# Versions
-
-Use 0.1.3 for mongoid 2.0
-
-Use 0.3.0 for mongoid 3.0
-
-Use 4.x.x for mongoid 4
-
-Use 5.x.x for mongoid 5
-
 ## Installation
 
 in gemfile:
