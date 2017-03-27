@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.test_files   = s.files.grep(%r(^(test|spec|features)/))
   s.require_path = 'lib'
 
-  s.add_dependency 'mongoid', '~> 6.0.0'
+  s.add_dependency 'mongoid', '~> 6.0'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'foreman'
