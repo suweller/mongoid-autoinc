@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pry'
 
 describe 'Mongoid::Autoinc' do
   after { User.delete_all }
@@ -115,6 +116,7 @@ describe 'Mongoid::Autoinc' do
         expect(Mongoid::Autoinc::Incrementor).to receive(:new)
           .with('Operation', :op_number, scope: 'Dr. Cox', auto: true)
           .and_return(incrementor)
+        user.save!
         operation.save!
       end
     end
