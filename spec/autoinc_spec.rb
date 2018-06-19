@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 
 describe 'Mongoid::Autoinc' do
   after { User.delete_all }
