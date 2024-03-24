@@ -17,13 +17,7 @@ http://img.shields.io/travis/suweller/mongoid-autoinc.svg?style=flat
 in gemfile:
 
 ``` ruby
-gem 'mongoid-autoinc'
-```
-
-in class:
-
-``` ruby
-require 'autoinc'
+gem 'mongoid-autoinc', require: 'autoinc'
 ```
 
 ## Usage
