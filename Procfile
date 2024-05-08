@@ -1,1 +1,1 @@
-MongoDB:       mongod run --config /usr/local/etc/mongod.conf
+MongoDB:       mongod run --config /opt/homebrew/etc/mongod.conf
