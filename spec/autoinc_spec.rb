@@ -69,7 +69,7 @@ describe 'Mongoid::Autoinc' do
 
       it 'calls the autoincrementor' do
         expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-          .with('User', :number, auto: true)
+          .with('User', :number, {auto: true})
           .and_return(incrementor)
         user.save!
       end
@@ -98,7 +98,7 @@ describe 'Mongoid::Autoinc' do
 
       it 'should call the autoincrementor' do
         expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-          .with('PatientFile', :file_number, scope: 'Dr. Cox', auto: true)
+          .with('PatientFile', :file_number, {scope: 'Dr. Cox', auto: true})
           .and_return(incrementor)
         patient_file.save!
       end
@@ -110,10 +110,10 @@ describe 'Mongoid::Autoinc' do
 
       it 'calls the autoincrementor' do
         expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-          .with('User', :number, auto: true)
+          .with('User', :number, {auto: true})
           .and_return(incrementor)
         expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-          .with('Operation', :op_number, scope: 'Dr. Cox', auto: true)
+          .with('Operation', :op_number, {scope: 'Dr. Cox', auto: true})
           .and_return(incrementor)
         user.save!
         operation.save!
@@ -131,7 +131,7 @@ describe 'Mongoid::Autoinc' do
       describe '#assign!' do
         it 'calls the autoincrementor' do
           expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-            .with('Intern', :number, auto: false)
+            .with('Intern', :number, {auto: false})
             .and_return(incrementor)
           subject.assign!(:number)
         end
@@ -152,7 +152,7 @@ describe 'Mongoid::Autoinc' do
 
         it 'calls the autoincrementor' do
           expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-            .with('PairOfScrubs', :number, auto: false)
+            .with('PairOfScrubs', :number, {auto: false})
             .and_return(incrementor)
           subject.assign!(:number)
         end
@@ -163,7 +163,7 @@ describe 'Mongoid::Autoinc' do
       let(:vehicle) { Vehicle.new(model: 'Coupe') }
       it 'calls the autoincrementor with the seed value' do
         expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-          .with('Vehicle', :vin, seed: 1000, auto: true)
+          .with('Vehicle', :vin, {seed: 1000, auto: true})
           .and_return(incrementor)
         vehicle.save!
       end
@@ -173,7 +173,7 @@ describe 'Mongoid::Autoinc' do
       let(:ticket) { Ticket.new }
       it 'calls the autoincrementor with the options hash' do
         expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-          .with('Ticket', :number, step: 2, auto: true)
+          .with('Ticket', :number, {step: 2, auto: true})
           .and_return(incrementor)
         ticket.save!
       end
@@ -183,7 +183,7 @@ describe 'Mongoid::Autoinc' do
       let(:lottery_ticket) { LotteryTicket.new(start: 10) }
       it 'calls the autoincrementor with the options hash' do
         expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-          .with('LotteryTicket', :number, step: 11, auto: true)
+          .with('LotteryTicket', :number, {step: 11, auto: true})
           .and_return(incrementor)
         lottery_ticket.save!
       end
@@ -193,7 +193,7 @@ describe 'Mongoid::Autoinc' do
       let(:stethoscope) { Stethoscope.new }
       it 'calls the autoincrementor with the options hash' do
         expect(Mongoid::Autoinc::Incrementor).to receive(:new)
-          .with('stetho', :number, auto: true)
+          .with('stetho', :number, {auto: true})
           .and_return(incrementor)
         stethoscope.save!
       end
