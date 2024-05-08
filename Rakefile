@@ -10,8 +10,6 @@ task :publish do
   NAME = 'mongoid-autoinc'
   VERSION_FILE = 'lib/autoinc/version.rb'
 
-  raise '$EDITOR should be set' unless ENV['EDITOR']
-
   def build_and_push_gem
     puts '# Building gem'
     puts `gem build #{NAME}.gemspec`
@@ -21,6 +19,7 @@ task :publish do
 
   def create_and_push_tag
     begin
+      puts `git fetch tags`
       puts `git commit -am 'Bump to #{version} [ci skip]'`
       puts "# Creating tag #{version}"
       puts `git tag #{version}`
@@ -32,7 +31,7 @@ task :publish do
   end
 
   def changes
-    git_status_to_array(`git status -s -u `)
+    git_status_to_array(`git status --short --untracked-files`)
   end
 
   def gem_version
@@ -47,13 +46,14 @@ task :publish do
     changes.split("\n").each { |change| change.gsub!(/^.. /,'') }
   end
 
+  raise '$EDITOR should be set' unless ENV['EDITOR']
   # raise "Branch should hold no uncommitted file change)" unless changes.empty?
 
   system("$EDITOR #{VERSION_FILE}")
   # if changes.member?(VERSION_FILE)
     load File.expand_path(VERSION_FILE)
-    build_and_push_gem
     create_and_push_tag
+    build_and_push_gem
   # else
   #   raise "Actually change the version in: #{VERSION_FILE}"
   # end
