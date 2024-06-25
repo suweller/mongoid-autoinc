@@ -47,14 +47,11 @@ task :publish do
   end
 
   raise '$EDITOR should be set' unless ENV['EDITOR']
-  # raise "Branch should hold no uncommitted file change)" unless changes.empty?
+  raise 'Branch should hold no uncommitted file change)' unless changes.empty?
+  raise 'Your editor exited with non-zero status' unless system("$EDITOR #{VERSION_FILE}")
+  raise "Expected change in: #{VERSION_FILE}" unless changes.member?(VERSION_FILE)
 
-  system("$EDITOR #{VERSION_FILE}")
-  # if changes.member?(VERSION_FILE)
-    load File.expand_path(VERSION_FILE)
-    create_and_push_tag
-    build_and_push_gem
-  # else
-  #   raise "Actually change the version in: #{VERSION_FILE}"
-  # end
+  load File.expand_path(VERSION_FILE)
+  create_and_push_tag
+  build_and_push_gem
 end
