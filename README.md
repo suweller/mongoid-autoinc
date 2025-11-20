@@ -3,14 +3,12 @@
 A mongoid plugin to add auto incrementing fields to your documents.
 
 [![Inline docs](
-http://inch-ci.org/github/suweller/mongoid-autoinc.svg?branch=master&style=flat
-)](http://inch-ci.org/github/suweller/mongoid-autoinc)
-[![Code Climate](
-http://img.shields.io/codeclimate/github/suweller/mongoid-autoinc.svg?style=flat
-)](https://codeclimate.com/github/suweller/mongoid-autoinc)
+https://inch-ci.org/github/suweller/mongoid-autoinc.svg?branch=master&style=flat
+)](https://inch-ci.org/github/suweller/mongoid-autoinc)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/suweller/mongoid-autoinc)](https://codeclimate.com/github/suweller/mongoid-autoinc)
 [![Build Status](
-http://img.shields.io/travis/suweller/mongoid-autoinc.svg?style=flat
-)](https://travis-ci.org/suweller/mongoid-autoinc)
+https://github.com/suweller/mongoid-autoinc/actions/workflows/ci.yml/badge.svg?branch=master
+)](https://github.com/suweller/mongoid-autoinc/actions)
 
 ## Installation
 
@@ -172,7 +170,7 @@ increments :number, step: -> { 1 + rand(10) }
 ```
 $ gem install bundler (if you don't have it)
 $ bundle install
-$ bundle exec spec
+$ bundle exec rake
 ```
 
 ## Contributing
